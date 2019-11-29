@@ -43,13 +43,29 @@ class Transaction extends React.Component {
           newTransaction={this.state.newTransaction}
           handleSubmit={this.handleSubmit}
         />
-        <ul>
-          {this.state.transactionList.map((transaction, index) => (
-            <li key={index}>
-              Name: {transaction.name} Amount: {transaction.amount}
-            </li>
-          ))}
-        </ul>
+        <table style={{
+            marginLeft: "auto",
+            marginRight: "auto"
+          }}>
+          <thead>
+            <th>
+              Name
+            </th>
+            <th>
+              Amount
+            </th>
+            <th>
+              Due Date
+            </th>
+          </thead>
+          <tbody>
+            {this.state.transactionList.map((transaction, index) => (
+            <tr key={index}>
+              <td>{transaction.name}</td><td>{transaction.amount}</td><td>{transaction.dueDate}</td>
+            </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     )
   }
