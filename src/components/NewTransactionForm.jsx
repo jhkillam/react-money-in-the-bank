@@ -1,8 +1,10 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css";
 
-const NewTransactionForm = ({handleChange, handleSubmit, newTransaction}) => {
+const NewTransactionForm = ({handleChange, handleSubmit, handleDateChange, newTransaction}) => {
 
   return (
     <div className="form-container">
@@ -28,14 +30,12 @@ const NewTransactionForm = ({handleChange, handleSubmit, newTransaction}) => {
             />
         </Form.Group>
         <Form.Group controlId="formTransactionDueDate">
-          <Form.Label>Due Date</Form.Label>
-            <Form.Control 
-              type="text"
-              name="dueDate"
-              placeholder="Enter due date"
-              onChange={handleChange}
-              value={newTransaction.dueDate}
-            />
+          <Form.Label>Due Date</Form.Label><br/>
+          <DatePicker
+            selected={newTransaction.dueDate}
+            onChange={handleDateChange}
+            placeholderText="Pick a date"
+          />
         </Form.Group>
         <Form.Group controlId="formTransactionType">
           <div onChange={handleChange} className="mb-3">

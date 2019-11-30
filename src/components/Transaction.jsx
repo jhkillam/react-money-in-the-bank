@@ -3,6 +3,8 @@ import React from 'react'
 import Table from 'react-bootstrap/Table'
 import NewTransactionForm from './NewTransactionForm'
 
+const moment = require('moment')
+
 class Transaction extends React.Component {
   constructor(props) {
     super(props)
@@ -16,6 +18,11 @@ class Transaction extends React.Component {
       },
       transactionList: []
     }
+  }
+  handleDateChange = date => {
+    this.setState(prevState => ({
+      newTransaction: {...prevState.newTransaction, dueDate: date}
+    }))
   }
   handleChange = e => {
     const { name, value } = e.target
@@ -43,6 +50,7 @@ class Transaction extends React.Component {
           handleChange={this.handleChange}
           newTransaction={this.state.newTransaction}
           handleSubmit={this.handleSubmit}
+          handleDateChange={this.handleDateChange}
         />
         <div className="container">
           <Table 
@@ -54,7 +62,7 @@ class Transaction extends React.Component {
             bordered
             hover
             variant="dark"
-            >
+          >
             <thead>
               <tr>
                 <th>Name</th>
@@ -68,7 +76,7 @@ class Transaction extends React.Component {
               <tr key={index}>
                 <td>{transaction.name}</td>
                 <td>{transaction.amount}</td>
-                <td>{transaction.dueDate}</td>
+                <td>{moment(transaction.dueDate).utc().format('MM/DD/YYYY')}</td>
                 <td>{transaction.type}</td>
               </tr>
               ))}
