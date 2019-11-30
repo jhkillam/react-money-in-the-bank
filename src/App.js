@@ -1,14 +1,12 @@
-import React from 'react';
+import React from 'react'
 
-import './App.css';
 import Transaction from './components/Transaction'
-
-
+import DarkNavbar from './components/Navbar'
 
 function App() {
   return (
     <div className="App">
-      <h1>Money In The Bank</h1>
+      <DarkNavbar/>
       <Transaction/>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Table from 'react-bootstrap/Table'
 import NewTransactionForm from './NewTransactionForm'
 
 class Transaction extends React.Component {
@@ -8,7 +9,7 @@ class Transaction extends React.Component {
     this.state = {
       newTransaction: {
         name: "",
-        amount: 0,
+        amount: "",
         dueDate: "",
         isPaid: false,
         type: "",
@@ -28,10 +29,10 @@ class Transaction extends React.Component {
       transactionList: [...prevState.transactionList, prevState.newTransaction],
       newTransaction: { 
         name: "",
-        amount: 0,
+        amount: "",
         dueDate: "",
         isPaid: false,
-        type: "", 
+        type: this.state.newTransaction.type
       }
     }))
   }
@@ -43,29 +44,37 @@ class Transaction extends React.Component {
           newTransaction={this.state.newTransaction}
           handleSubmit={this.handleSubmit}
         />
-        <table style={{
-            marginLeft: "auto",
-            marginRight: "auto"
-          }}>
-          <thead>
-            <th>
-              Name
-            </th>
-            <th>
-              Amount
-            </th>
-            <th>
-              Due Date
-            </th>
-          </thead>
-          <tbody>
-            {this.state.transactionList.map((transaction, index) => (
-            <tr key={index}>
-              <td>{transaction.name}</td><td>{transaction.amount}</td><td>{transaction.dueDate}</td>
-            </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="container">
+          <Table 
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto"
+            }}
+            striped
+            bordered
+            hover
+            variant="dark"
+            >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Due Date</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.transactionList.map((transaction, index) => (
+              <tr key={index}>
+                <td>{transaction.name}</td>
+                <td>{transaction.amount}</td>
+                <td>{transaction.dueDate}</td>
+                <td>{transaction.type}</td>
+              </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
       </div>
     )
   }
