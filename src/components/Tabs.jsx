@@ -7,7 +7,7 @@ import Transaction from './Transaction'
 
 const TabView = () => {
   return (
-    <Tabs defaultActiveKey="forecast">
+    <Tabs defaultActiveKey="transactions">
       <Tab eventKey="forecast" title="Forecast">
         <h2>Forecast</h2>
       </Tab>

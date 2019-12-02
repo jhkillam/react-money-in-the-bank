@@ -43,6 +43,17 @@ class Transaction extends React.Component {
       }
     }))
   }
+  removeTransaction(index) {
+    if (index < (this.state.transactionList).length){
+      const currentTransactionList = [...this.state.transactionList]
+      const newTransactionList = currentTransactionList
+      newTransactionList.splice(index, 1)
+      localStorage.setItem('transactionList', JSON.stringify(newTransactionList))
+      this.setState({
+        transactionList: newTransactionList
+      })
+    }
+  }
   componentDidMount() {
     if (localStorage.getItem('transactionList')) {
       this.setState({
@@ -79,6 +90,7 @@ class Transaction extends React.Component {
                 <th>Amount</th>
                 <th>Due Date</th>
                 <th>Type</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -88,6 +100,7 @@ class Transaction extends React.Component {
                 <td>{transaction.amount}</td>
                 <td>{moment(transaction.dueDate).utc().format('MM/DD/YYYY')}</td>
                 <td>{transaction.type}</td>
+                <td><button onClick={() => this.removeTransaction(index)}>X</button></td>
               </tr>
               ))}
             </tbody>
