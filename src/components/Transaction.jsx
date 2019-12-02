@@ -43,6 +43,16 @@ class Transaction extends React.Component {
       }
     }))
   }
+  componentDidMount() {
+    if (localStorage.getItem('transactionList')) {
+      this.setState({
+        transactionList: JSON.parse(localStorage.getItem('transactionList'))
+      })
+    }
+  }
+  componentDidUpdate() {
+    localStorage.setItem('transactionList', JSON.stringify(this.state.transactionList));
+  }
   render() {
     return (
       <div>

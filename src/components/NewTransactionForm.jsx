@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const NewTransactionForm = ({handleChange, handleSubmit, handleDateChange, newTransaction}) => {
 
   return (
-    <div className="form-container">
+    <div className="container">
       <Form>
         <Form.Group controlId="formTransactionName">
           <Form.Label>Name</Form.Label>

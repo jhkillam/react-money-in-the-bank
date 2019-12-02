@@ -1,4 +1,19 @@
-.form-container {
-  max-width: 75%;
+.container {
   margin: 2em auto;
+}
+.nav-tabs {
+  position: sticky;
+  top: 56px;
+  background-color: #343a40 !important;
+  z-index: 1020;
+}
+a {
+  color: #17a2b8;
+}
+a:hover {
+  color: #17a2b8;
+}
+.form-control:focus {
+  border-color: #17a2b8;
+  box-shadow: 0 0 0 .2rem rgba(23,162,184,.25);
 }
