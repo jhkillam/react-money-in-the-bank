@@ -13,15 +13,26 @@ class Transaction extends React.Component {
         name: "",
         amount: "",
         dueDate: "",
+        recurring: false,
         isPaid: false,
         type: "",
       },
       transactionList: []
     }
   }
-  handleDateChange = date => {
+  handleStartDateChange = date => {
     this.setState(prevState => ({
       newTransaction: {...prevState.newTransaction, dueDate: date}
+    }))
+  }
+  handleEndDateChange = date => {
+    this.setState(prevState => ({
+      newTransaction: {...prevState.newTransaction, endDate: date}
+    }))
+  }
+  handleCheckboxToggle = () => {
+    this.setState(prevState => ({
+      newTransaction: {...prevState.newTransaction, recurring: !this.state.newTransaction.recurring}
     }))
   }
   handleChange = e => {
@@ -38,8 +49,9 @@ class Transaction extends React.Component {
         name: "",
         amount: "",
         dueDate: "",
+        recurring: this.state.newTransaction.recurring,
         isPaid: false,
-        type: this.state.newTransaction.type
+        type: this.state.newTransaction.type,
       }
     }))
   }
@@ -71,7 +83,9 @@ class Transaction extends React.Component {
           handleChange={this.handleChange}
           newTransaction={this.state.newTransaction}
           handleSubmit={this.handleSubmit}
-          handleDateChange={this.handleDateChange}
+          handleStartDateChange={this.handleStartDateChange}
+          handleEndDateChange={this.handleEndDateChange}
+          handleCheckboxToggle={this.handleCheckboxToggle}
         />
         <div className="container">
           <Table 
