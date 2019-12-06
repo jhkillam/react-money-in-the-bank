@@ -1,7 +1,9 @@
 import React from 'react'
 
 import Table from 'react-bootstrap/Table'
+import Button from 'react-bootstrap/Button'
 import NewTransactionForm from './NewTransactionForm'
+import EditModal from './EditModal'
 
 const moment = require('moment')
 
@@ -13,7 +15,8 @@ class Transaction extends React.Component {
         name: "",
         amount: "",
         dueDate: "",
-        recurring: false,
+        endDate: "",
+        frequency: "Once",
         isPaid: false,
         type: "",
       },
@@ -30,11 +33,6 @@ class Transaction extends React.Component {
       newTransaction: {...prevState.newTransaction, endDate: date}
     }))
   }
-  handleCheckboxToggle = () => {
-    this.setState(prevState => ({
-      newTransaction: {...prevState.newTransaction, recurring: !this.state.newTransaction.recurring}
-    }))
-  }
   handleChange = e => {
     const { name, value } = e.target
     this.setState(prevState => ({
@@ -49,7 +47,8 @@ class Transaction extends React.Component {
         name: "",
         amount: "",
         dueDate: "",
-        recurring: this.state.newTransaction.recurring,
+        endDate: "",
+        frequency: this.state.newTransaction.frequency,
         isPaid: false,
         type: this.state.newTransaction.type,
       }
@@ -85,10 +84,10 @@ class Transaction extends React.Component {
           handleSubmit={this.handleSubmit}
           handleStartDateChange={this.handleStartDateChange}
           handleEndDateChange={this.handleEndDateChange}
-          handleCheckboxToggle={this.handleCheckboxToggle}
         />
         <div className="container">
           <Table 
+            responsive
             style={{
               marginLeft: "auto",
               marginRight: "auto"
@@ -102,19 +101,44 @@ class Transaction extends React.Component {
               <tr>
                 <th>Name</th>
                 <th>Amount</th>
+                <th>Frequency</th>
                 <th>Due Date</th>
+                <th>End Date</th>
                 <th>Type</th>
-                <th>Delete</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {this.state.transactionList.map((transaction, index) => (
               <tr key={index}>
                 <td>{transaction.name}</td>
-                <td>{transaction.amount}</td>
+                <td>&#36;{transaction.amount}</td>
+                <td>{transaction.frequency}</td>
                 <td>{moment(transaction.dueDate).utc().format('MM/DD/YYYY')}</td>
+                {(() => {
+                  if (transaction.endDate === ""){
+                    return (
+                      <td>None</td>
+                      )} else {
+                      return (
+                        <td>{moment(transaction.endDate).utc().format('MM/DD/YYYY')}</td>
+                      )
+                    }
+                })()}
                 <td>{transaction.type}</td>
-                <td><button onClick={() => this.removeTransaction(index)}>X</button></td>
+                <td>
+                  <EditModal
+                    index={index}
+                    transactionDetails={this.state.transactionList[index]}
+                    handleChange={this.handleChange}
+                  />
+                  <Button 
+                    variant="danger"
+                    size="sm"
+                    onClick={() => this.removeTransaction(index)}>
+                    X
+                  </Button>
+                </td>
               </tr>
               ))}
             </tbody>
