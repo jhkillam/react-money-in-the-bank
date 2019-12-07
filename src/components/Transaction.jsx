@@ -18,7 +18,16 @@ class Transaction extends React.Component {
         endDate: "",
         frequency: "Once",
         isPaid: false,
-        type: "",
+        type: ""
+      },
+      editedTransaction: {
+        name: "",
+        amount: "",
+        dueDate: "",
+        endDate: "",
+        frequency: "Once",
+        isPaid: false,
+        type: ""
       },
       transactionList: []
     }
@@ -39,6 +48,12 @@ class Transaction extends React.Component {
       newTransaction: {...prevState.newTransaction, [name]: value}
     }))
   }
+  setEditingTransaction = (transactionToEdit) => {
+    const transactionCopy = {...transactionToEdit}
+    this.setState({
+      editedTransaction: transactionCopy
+    })
+  }
   handleSubmit = e => {
     e.preventDefault()
     this.setState(prevState => ({
@@ -51,6 +66,31 @@ class Transaction extends React.Component {
         frequency: this.state.newTransaction.frequency,
         isPaid: false,
         type: this.state.newTransaction.type,
+      }
+    }))
+  }
+  handleEditChange = e => {
+    const { name, value } = e.target
+    this.setState(prevState => ({
+      editedTransaction: {...prevState.editedTransaction, [name]: value}
+    }))
+  }
+  handleEdit = (e, index, props) => {
+    e.preventDefault()
+    const previousTransactionList = this.state.transactionList
+    previousTransactionList.splice(index, 1, this.state.editedTransaction)
+    const updatedTransactionList = previousTransactionList
+    
+    this.setState(prevState => ({
+      transactionList: updatedTransactionList,
+      editedTransaction: { 
+        name: "",
+        amount: "",
+        dueDate: "",
+        endDate: "",
+        frequency: "Once",
+        isPaid: false,
+        type: ""
       }
     }))
   }
@@ -73,9 +113,11 @@ class Transaction extends React.Component {
     }
   }
   componentDidUpdate() {
+    // console.log('Transaction component updated ' + Math.random())
     localStorage.setItem('transactionList', JSON.stringify(this.state.transactionList));
   }
   render() {
+    // console.log('render fn transactionList', this.state.transactionList)
     return (
       <div>
         <NewTransactionForm
@@ -129,8 +171,10 @@ class Transaction extends React.Component {
                 <td>
                   <EditModal
                     index={index}
-                    transactionDetails={this.state.transactionList[index]}
-                    handleChange={this.handleChange}
+                    transactionDetails={this.state.editedTransaction}
+                    handleEditModalShow={() => this.setEditingTransaction(this.state.transactionList[index])}
+                    handleEditChange={this.handleEditChange}
+                    handleEdit={this.handleEdit}
                   />
                   <Button 
                     variant="danger"

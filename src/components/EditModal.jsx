@@ -7,14 +7,18 @@ import Form from 'react-bootstrap/Form'
 const moment = require('moment')
 
 const EditModal = (props) => {
-
   const [show, setShow] = React.useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const initialState = props.transactionDetails
-
+  const handleShow = () => {
+    props.handleEditModalShow()
+    setShow(true)
+  }
+  const handleClose = () => setShow(false)
+  const handleSaveChanges = (e) => {
+    setShow(false)
+    props.handleEdit(e, props.index, props)
+  }
+  const transactionDetailsToEdit = props.transactionDetails
+  
   return (
     <>
       <Button variant="info" onClick={handleShow}>
@@ -32,8 +36,17 @@ const EditModal = (props) => {
               <Form.Control
                 type="text"
                 name="name"
-                onChange={props.handleChange}
-                defaultValue={initialState.name}
+                onChange={props.handleEditChange}
+                value={transactionDetailsToEdit.name}
+              />
+            </Form.Group>
+            <Form.Group controlId="editFormTransactionAmount">
+              <Form.Label>Amount</Form.Label>
+              <Form.Control
+                type="text"
+                name="amount"
+                onChange={props.handleEditChange}
+                value={transactionDetailsToEdit.amount}
               />
             </Form.Group>
           </Form>
@@ -53,12 +66,16 @@ const EditModal = (props) => {
               }
           })()}<br/>
           Type: {props.transactionDetails.type}<br/>
+          Index: {props.index}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-danger" onClick={handleClose}>
+          {/* <Button variant="outline-danger" onClick={handleClose}>
             Cancel
-          </Button>
-          <Button variant="info" onClick={handleClose}>
+          </Button> */}
+          <Button 
+          type="submit" 
+          variant="info" 
+          onClick={handleSaveChanges}>
             Save Changes
           </Button>
         </Modal.Footer>
