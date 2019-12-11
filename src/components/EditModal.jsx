@@ -3,22 +3,25 @@ import React from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css"
+// import { parseISO } from 'date-fns'
 
 const moment = require('moment')
 
 const EditModal = (props) => {
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = React.useState(false)
   const handleShow = () => {
     props.handleEditModalShow()
     setShow(true)
   }
   const handleClose = () => setShow(false)
+
   const handleSaveChanges = (e) => {
     setShow(false)
-    props.handleEdit(e, props.index, props)
+    props.handleEditSubmit(e, props.index, props)
   }
-  const transactionDetailsToEdit = props.transactionDetails
-  
+
   return (
     <>
       <Button variant="info" onClick={handleShow}>
@@ -37,7 +40,8 @@ const EditModal = (props) => {
                 type="text"
                 name="name"
                 onChange={props.handleEditChange}
-                value={transactionDetailsToEdit.name}
+                // value={transactionDetailsToEdit.name}
+                value={props.transactionDetails.name}
               />
             </Form.Group>
             <Form.Group controlId="editFormTransactionAmount">
@@ -46,7 +50,42 @@ const EditModal = (props) => {
                 type="text"
                 name="amount"
                 onChange={props.handleEditChange}
-                value={transactionDetailsToEdit.amount}
+                value={props.transactionDetails.amount}
+              />
+            </Form.Group>
+            <Form.Group controlId="editFormTransactionFrequency">
+              <Form.Label>Frequency</Form.Label>
+                <Form.Control 
+                  as="select"
+                  name="frequency"
+                  value={props.transactionDetails.frequency}
+                  onChange={props.handleEditChange}
+                  >
+                  <option>Once</option>
+                  <option>Monthly</option>
+                  <option>Bi-weekly</option>
+                  <option>Weekly</option>
+                  <option>Daily</option>
+                </Form.Control>
+            </Form.Group>
+            <Form.Group controlId="editFormTransactionDueDate">
+              <Form.Label>Due Date</Form.Label><br/>
+              <DatePicker
+                isClearable={true}
+                value={moment(props.transactionDetails.dueDate).utc().format('MM/DD/YYYY')}
+                // TODO: Make selected attribute work
+                // NEXT LINE MAKES THIS COMPONENT CRASH~~~~~~~~~~~
+                // selected={parseISO(props.transactionDetails.dueDate)}
+                onChange={props.handleStartDateEditChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="editFormTransactionEndDate">
+              <Form.Label>End Date</Form.Label><br/>
+              <DatePicker
+                isClearable={true}
+                value={moment(props.transactionDetails.endDate).utc().format('MM/DD/YYYY')}
+                // TODO: Make selected attribute work
+                onChange={props.handleEndDateEditChange}
               />
             </Form.Group>
           </Form>

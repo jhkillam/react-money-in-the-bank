@@ -4,6 +4,7 @@ import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import NewTransactionForm from './NewTransactionForm'
 import EditModal from './EditModal'
+import ErrorBoundary from './ErrorBoundary'
 
 const moment = require('moment')
 
@@ -32,6 +33,12 @@ class Transaction extends React.Component {
       transactionList: []
     }
   }
+  handleChange = e => {
+    const { name, value } = e.target
+    this.setState(prevState => ({
+      newTransaction: {...prevState.newTransaction, [name]: value}
+    }))
+  }
   handleStartDateChange = date => {
     this.setState(prevState => ({
       newTransaction: {...prevState.newTransaction, dueDate: date}
@@ -41,18 +48,6 @@ class Transaction extends React.Component {
     this.setState(prevState => ({
       newTransaction: {...prevState.newTransaction, endDate: date}
     }))
-  }
-  handleChange = e => {
-    const { name, value } = e.target
-    this.setState(prevState => ({
-      newTransaction: {...prevState.newTransaction, [name]: value}
-    }))
-  }
-  setEditingTransaction = (transactionToEdit) => {
-    const transactionCopy = {...transactionToEdit}
-    this.setState({
-      editedTransaction: transactionCopy
-    })
   }
   handleSubmit = e => {
     e.preventDefault()
@@ -69,19 +64,35 @@ class Transaction extends React.Component {
       }
     }))
   }
+  setEditingTransaction = (transactionToEdit) => {
+    const transactionCopy = {...transactionToEdit}
+    this.setState({
+      editedTransaction: transactionCopy
+    })
+  }
   handleEditChange = e => {
     const { name, value } = e.target
     this.setState(prevState => ({
       editedTransaction: {...prevState.editedTransaction, [name]: value}
     }))
   }
-  handleEdit = (e, index, props) => {
+  handleStartDateEditChange = date => {
+    this.setState(prevState => ({
+      editedTransaction: {...prevState.editedTransaction, dueDate: date}
+    }))
+  }
+  handleEndDateEditChange = date => {
+    this.setState(prevState => ({
+      editedTransaction: {...prevState.editedTransaction, endDate: date}
+    }))
+  }
+  handleEditSubmit = (e, index, props) => {
     e.preventDefault()
     const previousTransactionList = this.state.transactionList
     previousTransactionList.splice(index, 1, this.state.editedTransaction)
     const updatedTransactionList = previousTransactionList
     
-    this.setState(prevState => ({
+    this.setState(() => ({
       transactionList: updatedTransactionList,
       editedTransaction: { 
         name: "",
@@ -113,7 +124,6 @@ class Transaction extends React.Component {
     }
   }
   componentDidUpdate() {
-    // console.log('Transaction component updated ' + Math.random())
     localStorage.setItem('transactionList', JSON.stringify(this.state.transactionList));
   }
   render() {
@@ -169,13 +179,17 @@ class Transaction extends React.Component {
                 })()}
                 <td>{transaction.type}</td>
                 <td>
+                  <ErrorBoundary>
                   <EditModal
                     index={index}
-                    transactionDetails={this.state.editedTransaction}
                     handleEditModalShow={() => this.setEditingTransaction(this.state.transactionList[index])}
+                    transactionDetails={this.state.editedTransaction}
                     handleEditChange={this.handleEditChange}
-                    handleEdit={this.handleEdit}
+                    handleStartDateEditChange={this.handleStartDateEditChange}
+                    handleEndDateEditChange={this.handleEndDateEditChange}
+                    handleEditSubmit={this.handleEditSubmit}
                   />
+                  </ErrorBoundary>
                   <Button 
                     variant="danger"
                     size="sm"
