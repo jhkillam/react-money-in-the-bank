@@ -7,17 +7,31 @@ import Transaction from './Transaction'
 import Forecast from './Forecast'
 
 
-const TabView = () => {
-  return (
-    <Tabs defaultActiveKey="transactions">
-      <Tab eventKey="forecast" title="Forecast">
-        <Forecast/>
-      </Tab>
-      <Tab eventKey="transactions" title="Transactions">
-        <Transaction/>
-      </Tab>
-    </Tabs>
-  )
+class TabView extends React.Component {
+
+  render() {
+    return (
+      <Tabs 
+      defaultActiveKey="forecast"
+      >
+        <Tab 
+        eventKey="forecast" 
+        title="Forecast"
+        unmountOnExit={true}
+        >
+          <Forecast
+          />
+        </Tab>
+        <Tab 
+        eventKey="transactions" 
+        title="Transactions"
+        unmountOnExit={true}
+        >
+          <Transaction/>
+        </Tab>
+      </Tabs>
+    )
+  }
 }
 
 export default TabView

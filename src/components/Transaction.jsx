@@ -127,7 +127,6 @@ class Transaction extends React.Component {
     localStorage.setItem('transactionList', JSON.stringify(this.state.transactionList));
   }
   render() {
-    // console.log('render fn transactionList', this.state.transactionList)
     return (
       <div>
         <NewTransactionForm
