@@ -83,7 +83,21 @@ const EditModal = (props) => {
               <Form.Label>End Date</Form.Label><br/>
               <DatePicker
                 isClearable={true}
+                // TODO: Fix invalid date bug
                 value={moment(props.transactionDetails.endDate).utc().format('MM/DD/YYYY')}
+                // value={'none'}
+                // placeholderText={
+                //   () => {
+                //     if (props.transactionDetails.endDate === ""){
+                //       return (
+                //         <>None</>
+                //         )} else {
+                //         return (
+                //           <>{moment(props.transactionDetails.endDate).utc().format('MM/DD/YYYY')}</>
+                //         )
+                //       }
+                //   }
+                // }
                 // TODO: Make selected attribute work
                 onChange={props.handleEndDateEditChange}
               />

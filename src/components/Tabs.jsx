@@ -20,6 +20,7 @@ class TabView extends React.Component {
         unmountOnExit={true}
         >
           <Forecast
+            transactionList={localStorage.getItem('transactionList')}
           />
         </Tab>
         <Tab 

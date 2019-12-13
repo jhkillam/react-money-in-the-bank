@@ -3,39 +3,261 @@ import React from 'react'
 import Table from 'react-bootstrap/Table'
 // import Button from 'react-bootstrap/Button'
 
-import { RRule, RRuleSet, rrulestr } from 'rrule'
+import { RRule } from 'rrule'
 
 const moment = require('moment')
 
+let forecast = []
+let sortedForecast = []
+
 class Forecast extends React.Component {
   constructor(props) {
+    let localTransactionList = JSON.parse(localStorage.getItem('transactionList'))
     super(props)
     this.state = {
-      myDate: "",
-      transactionList: []
+      transactionList: localTransactionList
     }
   }
   componentDidMount() {
     console.log('forecast component mounted')
+    console.log('mount', this.state.transactionList)
+    forecast = []
+    sortedForecast = []
+    // this.setState({
+    //   transactionList: JSON.parse(localStorage.getItem('transactionList'))
+    // })
+    // this.setState({
+    //   myDate: this.state.transactionList[0].dueDate
+    // })
+    
+    this.state.transactionList.map((transaction) => {
+      if (transaction.frequency === 'Monthly') {
+        const monthlyRule = new RRule({
+          freq: RRule.MONTHLY,
+          dtstart: new Date(transaction.dueDate),
+          interval: 1,
+          until: new Date(Date.UTC(2021, 2, 1))
+        })
+        let recurringDatesArray = monthlyRule.all()
+        let i = 0
+        for (i = 0; i < recurringDatesArray.length; i++) {
+          forecast.push(
+            {
+              name: transaction.name,
+              amount: transaction.amount,
+              dueDate: recurringDatesArray[i],
+              endDate: transaction.endDate,
+              frequency: transaction.frequency,
+              isPaid: false,
+              type: transaction.type
+            }
+          )
+        }
+      } else if (transaction.frequency === 'Bi-weekly') {
+          const biWeeklyRule = new RRule({
+            freq: RRule.WEEKLY,
+            dtstart: new Date(transaction.dueDate),
+            interval: 2,
+            until: new Date(Date.UTC(2021, 2, 1))
+          })
+          let recurringDatesArray = biWeeklyRule.all()
+          let i = 0
+          for (i = 0; i < recurringDatesArray.length; i++) {
+            forecast.push(
+              {
+                name: transaction.name,
+                amount: transaction.amount,
+                dueDate: recurringDatesArray[i],
+                endDate: transaction.endDate,
+                frequency: transaction.frequency,
+                isPaid: false,
+                type: transaction.type
+              }
+            )
+          }
+        } else if (transaction.frequency === 'Weekly') {
+            const weeklyRule = new RRule({
+              freq: RRule.WEEKLY,
+              dtstart: new Date(transaction.dueDate),
+              interval: 1,
+              until: new Date(Date.UTC(2021, 2, 1))
+            })
+            let recurringDatesArray = weeklyRule.all()
+            let i = 0
+            for (i = 0; i < recurringDatesArray.length; i++) {
+              forecast.push(
+                {
+                  name: transaction.name,
+                  amount: transaction.amount,
+                  dueDate: recurringDatesArray[i],
+                  endDate: transaction.endDate,
+                  frequency: transaction.frequency,
+                  isPaid: false,
+                  type: transaction.type
+                }
+              )
+            }
+        } else if (transaction.frequency === 'Daily') {
+            const dailyRule = new RRule({
+              freq: RRule.DAILY,
+              dtstart: new Date(transaction.dueDate),
+              interval: 1,
+              until: new Date(Date.UTC(2021, 2, 1))
+            })
+            let recurringDatesArray = dailyRule.all()
+            let i = 0
+            for (i = 0; i < recurringDatesArray.length; i++) {
+              forecast.push(
+                {
+                  name: transaction.name,
+                  amount: transaction.amount,
+                  dueDate: recurringDatesArray[i],
+                  endDate: transaction.endDate,
+                  frequency: transaction.frequency,
+                  isPaid: false,
+                  type: transaction.type
+                }
+              )
+            }
+        } else if (transaction.frequency === 'Once') {
+          forecast.push(
+            {
+              name: transaction.name,
+              amount: transaction.amount,
+              dueDate: new Date(transaction.dueDate),
+              endDate: transaction.endDate,
+              frequency: transaction.frequency,
+              isPaid: false,
+              type: transaction.type
+            }
+          )
+        }
+    })
+    sortedForecast = forecast.sort((a, b) => a.dueDate - b.dueDate)
+    console.log('sorted forecast', sortedForecast)
+    this.setState({
+      transactionList: sortedForecast
+    })
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.transactionList !== prevProps.transactionList) {
+      console.log('winning?')
+    }
+  }
+  // componentDidUpdate() {
+  //   console.log('forecast component did update')
+  //   console.log(this.state.transactionList)
+  //   this.state.transactionList.map((transaction) => {
+  //     if (transaction.frequency === 'Monthly') {
+  //       const monthlyRule = new RRule({
+  //         freq: RRule.MONTHLY,
+  //         dtstart: new Date(transaction.dueDate),
+  //         interval: 1,
+  //         until: new Date(Date.UTC(2021, 2, 1))
+  //       })
+  //       let recurringDatesArray = monthlyRule.all()
+  //       let i = 0
+  //       for (i = 0; i < recurringDatesArray.length; i++) {
+  //         forecast.push(
+  //           {
+  //             name: transaction.name,
+  //             amount: transaction.amount,
+  //             dueDate: recurringDatesArray[i],
+  //             endDate: transaction.endDate,
+  //             frequency: transaction.frequency,
+  //             isPaid: false,
+  //             type: transaction.type
+  //           }
+  //         )
+  //       }
+  //     } else if (transaction.frequency === 'Bi-weekly') {
+  //         const biWeeklyRule = new RRule({
+  //           freq: RRule.WEEKLY,
+  //           dtstart: new Date(transaction.dueDate),
+  //           interval: 2,
+  //           until: new Date(Date.UTC(2021, 2, 1))
+  //         })
+  //         let recurringDatesArray = biWeeklyRule.all()
+  //         let i = 0
+  //         for (i = 0; i < recurringDatesArray.length; i++) {
+  //           forecast.push(
+  //             {
+  //               name: transaction.name,
+  //               amount: transaction.amount,
+  //               dueDate: recurringDatesArray[i],
+  //               endDate: transaction.endDate,
+  //               frequency: transaction.frequency,
+  //               isPaid: false,
+  //               type: transaction.type
+  //             }
+  //           )
+  //         }
+  //       } else if (transaction.frequency === 'Weekly') {
+  //           const weeklyRule = new RRule({
+  //             freq: RRule.WEEKLY,
+  //             dtstart: new Date(transaction.dueDate),
+  //             interval: 1,
+  //             until: new Date(Date.UTC(2021, 2, 1))
+  //           })
+  //           let recurringDatesArray = weeklyRule.all()
+  //           let i = 0
+  //           for (i = 0; i < recurringDatesArray.length; i++) {
+  //             forecast.push(
+  //               {
+  //                 name: transaction.name,
+  //                 amount: transaction.amount,
+  //                 dueDate: recurringDatesArray[i],
+  //                 endDate: transaction.endDate,
+  //                 frequency: transaction.frequency,
+  //                 isPaid: false,
+  //                 type: transaction.type
+  //               }
+  //             )
+  //           }
+  //       } else if (transaction.frequency === 'Daily') {
+  //           const dailyRule = new RRule({
+  //             freq: RRule.DAILY,
+  //             dtstart: new Date(transaction.dueDate),
+  //             interval: 1,
+  //             until: new Date(Date.UTC(2021, 2, 1))
+  //           })
+  //           let recurringDatesArray = dailyRule.all()
+  //           let i = 0
+  //           for (i = 0; i < recurringDatesArray.length; i++) {
+  //             forecast.push(
+  //               {
+  //                 name: transaction.name,
+  //                 amount: transaction.amount,
+  //                 dueDate: recurringDatesArray[i],
+  //                 endDate: transaction.endDate,
+  //                 frequency: transaction.frequency,
+  //                 isPaid: false,
+  //                 type: transaction.type
+  //               }
+  //             )
+  //           }
+  //       } else if (transaction.frequency === 'Once') {
+  //         console.log('once~~~~~~~~~~~~~~', transaction.name)
+  //         forecast.push(
+  //           {
+  //             name: transaction.name,
+  //             amount: transaction.amount,
+  //             dueDate: new Date(transaction.dueDate),
+  //             endDate: transaction.endDate,
+  //             frequency: transaction.frequency,
+  //             isPaid: false,
+  //             type: transaction.type
+  //           }
+  //         )
+  //       }
+  //   })
+  //   const sortedForecast = forecast.sort((a, b) => a.dueDate - b.dueDate)
+  //   console.log('sorted forecast', sortedForecast)
+  // }
+  componentWillUnmount() {
     this.setState({
       transactionList: JSON.parse(localStorage.getItem('transactionList'))
     })
-    setTimeout(() => {
-      this.setState({
-        myDate: this.state.transactionList[0].dueDate
-      })
-      const monthlyRule = new RRule({
-        freq: RRule.MONTHLY,
-        dtstart: new Date(this.state.myDate),
-        interval: 1,
-        until: new Date(Date.UTC(2025, 2, 31))
-      })
-      console.log('myDate', this.state.myDate)
-      console.log('rrule', monthlyRule.all())
-      }, 500);
-  }
-  componentWillUnmount() {
-    console.log('forecast component unmounted')
   }
   render() {
     return (
