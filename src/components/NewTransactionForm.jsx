@@ -28,7 +28,7 @@ const NewTransactionForm = ({
           <Form.Group controlId="formTransactionAmount">
             <Form.Label>Amount</Form.Label>
             <Form.Control 
-              type="text"
+              type="number"
               name="amount"
               placeholder="Enter amount"
               onChange={handleChange}

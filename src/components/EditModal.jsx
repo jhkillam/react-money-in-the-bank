@@ -47,7 +47,7 @@ const EditModal = (props) => {
             <Form.Group controlId="editFormTransactionAmount">
               <Form.Label>Amount</Form.Label>
               <Form.Control
-                type="text"
+                type="number"
                 name="amount"
                 onChange={props.handleEditChange}
                 value={props.transactionDetails.amount}
@@ -102,36 +102,14 @@ const EditModal = (props) => {
                 onChange={props.handleEndDateEditChange}
               />
             </Form.Group>
+            <Button 
+            type="submit" 
+            variant="info" 
+            onClick={handleSaveChanges}>
+              Save Changes
+            </Button>
           </Form>
-          Name: {props.transactionDetails.name}<br/>
-          Amount: {props.transactionDetails.amount}<br/>
-          Frequency: {props.transactionDetails.frequency}<br/>
-          Due Date: {moment(props.transactionDetails.dueDate).utc().format('MM/DD/YYYY')}<br/>
-          End Date:
-          {(() => {
-            if (props.transactionDetails.endDate === ""){
-              return (
-                <span> None</span>
-                )} else {
-                return (
-                  <span> {moment(props.transactionDetails.endDate).utc().format('MM/DD/YYYY')}</span>
-                )
-              }
-          })()}<br/>
-          Type: {props.transactionDetails.type}<br/>
-          Index: {props.index}
         </Modal.Body>
-        <Modal.Footer>
-          {/* <Button variant="outline-danger" onClick={handleClose}>
-            Cancel
-          </Button> */}
-          <Button 
-          type="submit" 
-          variant="info" 
-          onClick={handleSaveChanges}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

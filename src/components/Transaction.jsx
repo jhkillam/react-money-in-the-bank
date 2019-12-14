@@ -163,7 +163,7 @@ class Transaction extends React.Component {
               {this.state.transactionList.map((transaction, index) => (
               <tr key={index}>
                 <td>{transaction.name}</td>
-                <td>&#36;{transaction.amount}</td>
+                <td>{transaction.amount}</td>
                 <td>{transaction.frequency}</td>
                 <td>{moment(transaction.dueDate).utc().format('MM/DD/YYYY')}</td>
                 {(() => {
