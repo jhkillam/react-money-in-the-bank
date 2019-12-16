@@ -7,6 +7,7 @@ import EditModal from './EditModal'
 import ErrorBoundary from './ErrorBoundary'
 
 const moment = require('moment')
+const uuid = require('uuid/v1')
 
 class Transaction extends React.Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class Transaction extends React.Component {
         endDate: "",
         frequency: "Once",
         isPaid: false,
-        type: ""
+        type: "", 
+        transactionId: uuid()
       },
       editedTransaction: {
         name: "",
@@ -28,7 +30,8 @@ class Transaction extends React.Component {
         endDate: "",
         frequency: "Once",
         isPaid: false,
-        type: ""
+        type: "",
+        transactionId: uuid()
       },
       transactionList: []
     }
@@ -61,11 +64,13 @@ class Transaction extends React.Component {
         frequency: this.state.newTransaction.frequency,
         isPaid: false,
         type: this.state.newTransaction.type,
+        transactionId: uuid()
       }
     }))
   }
   setEditingTransaction = (transactionToEdit) => {
     const transactionCopy = {...transactionToEdit}
+    transactionCopy.transactionId = uuid()
     this.setState({
       editedTransaction: transactionCopy
     })
@@ -101,7 +106,8 @@ class Transaction extends React.Component {
         endDate: "",
         frequency: "Once",
         isPaid: false,
-        type: ""
+        type: "",
+        transactionId: uuid()
       }
     }))
   }

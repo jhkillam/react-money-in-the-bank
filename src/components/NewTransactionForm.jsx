@@ -29,6 +29,8 @@ const NewTransactionForm = ({
             <Form.Label>Amount</Form.Label>
             <Form.Control 
               type="number"
+              step="any"
+              min="0"
               name="amount"
               placeholder="Enter amount"
               onChange={handleChange}
@@ -71,9 +73,9 @@ const NewTransactionForm = ({
               <Form.Check
                 type="radio"
                 name="type"
-                id="bill"
-                label="Bill"
-                value="Bill"
+                id="expense"
+                label="Expense"
+                value="Expense"
               />
               <Form.Check
                 type="radio"

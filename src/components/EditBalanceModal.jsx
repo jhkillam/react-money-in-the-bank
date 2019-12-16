@@ -34,7 +34,7 @@ const EditBalanceModal = (props) => {
                 type="number"
                 name="balance"
                 ref={props.editBalanceInput}
-                defaultValue={props.balance}
+                placeholder={props.balance}
               />
             </Form.Group>
             <Button 
