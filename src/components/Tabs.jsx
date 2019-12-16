@@ -5,6 +5,7 @@ import Tab from 'react-bootstrap/Tabs'
 
 import Transaction from './Transaction'
 import Forecast from './Forecast'
+import Chart from './Chart'
 
 
 class TabView extends React.Component {
@@ -29,6 +30,13 @@ class TabView extends React.Component {
         unmountOnExit={true}
         >
           <Transaction/>
+        </Tab>
+        <Tab
+        eventKey="chart"
+        title="Chart"
+        unmountOnExit={true}
+        >
+          <Chart/>
         </Tab>
       </Tabs>
     )
