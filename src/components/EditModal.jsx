@@ -68,6 +68,18 @@ const EditModal = (props) => {
                   <option>Daily</option>
                 </Form.Control>
             </Form.Group>
+            <Form.Group controlId="formTransactionType">
+              <Form.Label>Type</Form.Label>
+              <Form.Control 
+                as="select"
+                name="type"
+                value={props.transactionDetails.type}
+                onChange={props.handleEditChange}
+              >
+                <option>Expense</option>
+                <option>Income</option>
+            </Form.Control>
+        </Form.Group>
             <Form.Group controlId="editFormTransactionDueDate">
               <Form.Label>Due Date</Form.Label><br/>
               <DatePicker

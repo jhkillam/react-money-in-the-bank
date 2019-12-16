@@ -20,7 +20,7 @@ class Transaction extends React.Component {
         endDate: "",
         frequency: "Once",
         isPaid: false,
-        type: "", 
+        type: "Expense", 
         transactionId: uuid()
       },
       editedTransaction: {
@@ -30,7 +30,7 @@ class Transaction extends React.Component {
         endDate: "",
         frequency: "Once",
         isPaid: false,
-        type: "",
+        type: "Expense",
         transactionId: uuid()
       },
       transactionList: []

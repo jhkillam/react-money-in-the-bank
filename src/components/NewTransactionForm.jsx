@@ -16,7 +16,6 @@ const NewTransactionForm = ({
       <div className="container">
         <Form>
           <Form.Group controlId="formTransactionName">
-            <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
               name="name"
@@ -26,7 +25,6 @@ const NewTransactionForm = ({
               />
           </Form.Group>
           <Form.Group controlId="formTransactionAmount">
-            <Form.Label>Amount</Form.Label>
             <Form.Control 
               type="number"
               step="any"
@@ -38,12 +36,12 @@ const NewTransactionForm = ({
               />
           </Form.Group>
           <Form.Group controlId="formTransactionFrequency">
-            <Form.Label>Frequency</Form.Label>
               <Form.Control 
                 as="select"
                 name="frequency"
                 onChange={handleChange}
                 >
+                <option value="" disabled selected>Select transaction frequency</option>
                 <option>Once</option>
                 <option>Monthly</option>
                 <option>Bi-weekly</option>
@@ -51,23 +49,35 @@ const NewTransactionForm = ({
                 <option>Daily</option>
               </Form.Control>
           </Form.Group>
+          <Form.Group controlId="formTransactionType">
+            <Form.Control 
+              as="select"
+              name="type"
+              onChange={handleChange}
+            >
+              <option value="" disabled selected>Select transaction type</option>
+              <option>Expense</option>
+              <option>Income</option>
+            </Form.Control>
+        </Form.Group>
           <Form.Group controlId="formTransactionDueDate">
-            <Form.Label>Due Date</Form.Label><br/>
             <DatePicker
               selected={newTransaction.dueDate}
               onChange={handleStartDateChange}
+              placeholderText="Enter start date"
               // isClearable
             />
           </Form.Group>
           <Form.Group controlId="formTransactionEndDate">
-            <Form.Label>End Date</Form.Label><br/>
             <DatePicker
               selected={newTransaction.endDate}
               onChange={handleEndDateChange}
+              placeholderText="Enter end date"
               // isClearable
             />
           </Form.Group>
-          <Form.Group controlId="formTransactionType">
+
+          {/* <Form.Group controlId="formTransactionType">
             <Form.Label>Type</Form.Label><br/>
             <div onChange={handleChange} className="mb-3">
               <Form.Check
@@ -85,7 +95,7 @@ const NewTransactionForm = ({
                 value="Income"
               />
             </div>
-          </Form.Group>
+          </Form.Group> */}
           <Button 
             type="submit"
             variant="info"
