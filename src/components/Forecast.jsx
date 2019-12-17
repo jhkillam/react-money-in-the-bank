@@ -101,7 +101,7 @@ class Forecast extends React.Component {
     //   transactionListToUpdateForecast.splice(indicesToSplice[index], 1)
     //   console.log("updated spliced list for forecast", transactionListToUpdateForecast)
     // }
-    this.state.transactionList.map((transaction) => {
+    this.state.transactionList.forEach((transaction) => {
       // these if-else statements check if there is an invalid start or end date
       // TODO: IMPLEMENT FORM VALIDATION
       if (transaction.endDate === "") {
@@ -280,6 +280,7 @@ class Forecast extends React.Component {
           bordered
           hover
           variant="dark"
+          size="sm"
         >
           <thead>
             <tr>
@@ -328,6 +329,7 @@ class Forecast extends React.Component {
                   index={index}
                   variant="info"
                   onClick={() => this.markAsPaid(index)}
+                  size="sm"
                 >
                   Paid
                 </Button>

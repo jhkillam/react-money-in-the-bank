@@ -31,7 +31,7 @@ class Chart extends React.Component {
     let localBalance = JSON.parse(localStorage.getItem('balance')) || 0
     chartBalance = parseFloat(localBalance)
     data = []
-    forecast.map((forecastItem) => {
+    forecast.forEach((forecastItem) => {
       this.checkForTransactionType(forecastItem)
       chartBalance = (chartBalance + formattedTransactionAmount)
       data.push({

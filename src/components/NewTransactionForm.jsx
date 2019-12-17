@@ -40,8 +40,9 @@ const NewTransactionForm = ({
                 as="select"
                 name="frequency"
                 onChange={handleChange}
+                defaultValue=""
                 >
-                <option value="" disabled selected>Select transaction frequency</option>
+                <option value="" disabled>Select transaction frequency</option>
                 <option>Once</option>
                 <option>Monthly</option>
                 <option>Bi-weekly</option>
@@ -54,8 +55,9 @@ const NewTransactionForm = ({
               as="select"
               name="type"
               onChange={handleChange}
+              defaultValue=""
             >
-              <option value="" disabled selected>Select transaction type</option>
+              <option value="" disabled>Select transaction type</option>
               <option>Expense</option>
               <option>Income</option>
             </Form.Control>

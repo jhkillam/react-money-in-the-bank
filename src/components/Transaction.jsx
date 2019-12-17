@@ -2,6 +2,7 @@ import React from 'react'
 
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
+
 import NewTransactionForm from './NewTransactionForm'
 import EditModal from './EditModal'
 import ErrorBoundary from './ErrorBoundary'
@@ -156,6 +157,7 @@ class Transaction extends React.Component {
             bordered
             hover
             variant="dark"
+            size="sm"
           >
             <thead>
               <tr>
@@ -188,20 +190,21 @@ class Transaction extends React.Component {
                 <td>{transaction.type}</td>
                 <td>
                   <ErrorBoundary>
-                  <EditModal
-                    index={index}
-                    handleEditModalShow={() => this.setEditingTransaction(this.state.transactionList[index])}
-                    transactionDetails={this.state.editedTransaction}
-                    handleEditChange={this.handleEditChange}
-                    handleStartDateEditChange={this.handleStartDateEditChange}
-                    handleEndDateEditChange={this.handleEndDateEditChange}
-                    handleEditSubmit={this.handleEditSubmit}
-                  />
+                    <EditModal
+                      index={index}
+                      handleEditModalShow={() => this.setEditingTransaction(this.state.transactionList[index])}
+                      transactionDetails={this.state.editedTransaction}
+                      handleEditChange={this.handleEditChange}
+                      handleStartDateEditChange={this.handleStartDateEditChange}
+                      handleEndDateEditChange={this.handleEndDateEditChange}
+                      handleEditSubmit={this.handleEditSubmit}
+                    />
                   </ErrorBoundary>
                   <Button 
                     variant="danger"
+                    onClick={() => this.removeTransaction(index)}
                     size="sm"
-                    onClick={() => this.removeTransaction(index)}>
+                  >
                     X
                   </Button>
                 </td>
