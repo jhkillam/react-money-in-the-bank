@@ -2,7 +2,7 @@
   "name": "react-money-in-the-bank",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jhkillam.github.io/react-money-in-the-bank",
+  "homepage": "https://jhkillam.github.io/react-money-in-the-bank/",
   "dependencies": {
     "bootstrap": "^4.4.1",
     "gh-pages": "^2.1.1",
