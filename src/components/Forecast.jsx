@@ -15,11 +15,13 @@ let forecast = []
 let sortedForecast = JSON.parse(localStorage.getItem('forecastList')) || []
 let forecastedBalance = 0
 let formattedTransactionAmount = 0
+let forecastTransactionStartDate
 let forecastTransactionEndDate
 const forecastLimit = {
   endDate: new Date(),
   limit: 2
 }
+const defaultForecastStartDate = new Date()
 const defaultForecastEndDate = new Date(forecastLimit.endDate.setFullYear(forecastLimit.endDate.getFullYear() + forecastLimit.limit))
 
 class Forecast extends React.Component {
@@ -100,15 +102,25 @@ class Forecast extends React.Component {
     //   console.log("updated spliced list for forecast", transactionListToUpdateForecast)
     // }
     this.state.transactionList.map((transaction) => {
+      // these if-else statements check if there is an invalid start or end date
+      // TODO: IMPLEMENT FORM VALIDATION
       if (transaction.endDate === "") {
         forecastTransactionEndDate = defaultForecastEndDate
       } else (
         forecastTransactionEndDate = new Date(transaction.endDate)
       )
+      if (transaction.dueDate === "") {
+        forecastTransactionStartDate = defaultForecastStartDate
+      } else {
+        forecastTransactionStartDate = new Date(transaction.dueDate)
+      }
+      // END OF DATE VALIDATION
+      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      
       if (transaction.frequency === 'Monthly') {
         const monthlyRule = new RRule({
           freq: RRule.MONTHLY,
-          dtstart: new Date(transaction.dueDate),
+          dtstart: forecastTransactionStartDate,
           interval: 1,
           until: forecastTransactionEndDate
         })
@@ -132,7 +144,7 @@ class Forecast extends React.Component {
       } else if (transaction.frequency === 'Bi-weekly') {
           const biWeeklyRule = new RRule({
             freq: RRule.WEEKLY,
-            dtstart: new Date(transaction.dueDate),
+            dtstart: forecastTransactionStartDate,
             interval: 2,
             until: forecastTransactionEndDate
           })
@@ -156,7 +168,7 @@ class Forecast extends React.Component {
         } else if (transaction.frequency === 'Weekly') {
             const weeklyRule = new RRule({
               freq: RRule.WEEKLY,
-              dtstart: new Date(transaction.dueDate),
+              dtstart: forecastTransactionStartDate,
               interval: 1,
               until: forecastTransactionEndDate
             })
@@ -180,7 +192,7 @@ class Forecast extends React.Component {
         } else if (transaction.frequency === 'Daily') {
             const dailyRule = new RRule({
               freq: RRule.DAILY,
-              dtstart: new Date(transaction.dueDate),
+              dtstart: forecastTransactionStartDate,
               interval: 1,
               until: forecastTransactionEndDate
             })
@@ -206,7 +218,7 @@ class Forecast extends React.Component {
             {
               name: transaction.name,
               amount: parseFloat(transaction.amount),
-              dueDate: new Date(transaction.dueDate),
+              dueDate: forecastTransactionStartDate,
               endDate: transaction.endDate,
               frequency: transaction.frequency,
               isPaid: false,
