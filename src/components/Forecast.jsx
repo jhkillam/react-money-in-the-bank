@@ -32,6 +32,7 @@ class Forecast extends React.Component {
       transactionList: localTransactionList, 
       balance: localBalance,
       paidItemsList: localPaidItems,
+      forecastList: sortedForecast
     }
     this.editBalanceInput = React.createRef()
   }
@@ -51,13 +52,15 @@ class Forecast extends React.Component {
     newForecastList[index].isPaid = true
     newPaidItemsList.push(newForecastList[index])
     newForecastList.splice(index, 1)
+    // console.log('spliced! new forecast list', newForecastList)
     localStorage.setItem('forecastList', JSON.stringify(newForecastList))
     localStorage.setItem('balance', JSON.stringify(newForecastedBalance))
     localStorage.setItem('paidItemsList', JSON.stringify(newPaidItemsList))
     this.setState({
       transactionList: newForecastList,
       balance: newForecastedBalance, 
-      paidItemsList: newPaidItemsList
+      paidItemsList: newPaidItemsList, 
+      forecastList: newForecastList
     })
   }
   checkForTransactionType(transaction) {
@@ -215,6 +218,7 @@ class Forecast extends React.Component {
         }
     })
     sortedForecast = forecast.sort((a, b) => a.dueDate - b.dueDate)
+    localStorage.setItem('forecastList', JSON.stringify(sortedForecast))
     this.setState({
       transactionList: sortedForecast
     })
@@ -222,21 +226,27 @@ class Forecast extends React.Component {
   componentDidMount() {
     if (this.state.transactionList) {
       if (this.state.transactionList.length === 0) {
+        // console.log('setting trlist and forecastlist to null')
         this.setState({
-          transactionList: null
+          transactionList: null,
+          forecastList: null
         })
       } else {
         this.calculateForecast()
       }
     } else {
+      // console.log('setting trlist and forecastlist to null')
       this.setState({
-        transactionList: null
+        transactionList: null, 
+        forecastList: null
       })
     }
   }
   componentWillUnmount() {
+    localStorage.setItem('balance', JSON.stringify(this.state.balance))
+    localStorage.setItem('forecastList', JSON.stringify(this.state.forecastList))
+    // console.log('forecast unmounting, forecast saved to localstorage', this.state.forecastList)
     if (this.state.transactionList) {
-      localStorage.setItem('forecastList', JSON.stringify(this.state.transactionList))
       this.setState({
         transactionList: JSON.parse(localStorage.getItem('transactionList'))
       })
@@ -244,7 +254,6 @@ class Forecast extends React.Component {
     if (this.state.paidItemsList) {
       localStorage.setItem('paidItemsList', JSON.stringify(this.state.paidItemsList))
     }
-    localStorage.setItem('balance', JSON.stringify(this.state.balance))
   }
   drawForecastTable() {
     if (this.state.transactionList) {
@@ -266,8 +275,8 @@ class Forecast extends React.Component {
               <th>Amount</th>
               {/* <th>Frequency</th> */}
               <th>Due Date</th>
-              <th>End Date</th>
-              <th>Type</th>
+              {/* <th>End Date</th>
+              <th>Type</th> */}
               <th>Balance</th>
               <th>Actions</th>
             </tr>
@@ -278,7 +287,7 @@ class Forecast extends React.Component {
               <td>{transaction.name}</td>
               <td>{this.checkForTransactionType(transaction).toFixed(2)}</td>
               <td>{moment(transaction.dueDate).utc().format('MM/DD/YYYY')}</td>
-              {(() => {
+              {/* {(() => {
                 if (transaction.endDate === ""){
                   return (
                     <td>None</td>
@@ -288,7 +297,7 @@ class Forecast extends React.Component {
                     )
                   }
               })()}
-              <td>{transaction.type}</td>
+              <td>{transaction.type}</td> */}
               <td>
                 {(() => {
                   if (index === 0) {
@@ -318,7 +327,7 @@ class Forecast extends React.Component {
       )
     } else {
       return (
-        <h3>Looks like you have no transactions saved. Go create some on the transactions tab.</h3>
+        <p>Looks like you have no transactions saved. Go create some on the transactions tab.</p>
       )
     }
   }
