@@ -8,15 +8,15 @@ My objective with this project is to create an application to track monthly inco
 
 ### Libraries Used
 
-*[Create React App](https://github.com/facebook/create*react-app)
-*[React Bootstrap](https://react-bootstrap.github.io/)
-*[React Datepicker](https://reactdatepicker.com/)
-*[rrule.js](https://github.com/jakubroztocil/rrule)
-*[Moment.js](https://momentjs.com/)
-*[Recharts](http://recharts.org/)
+* [Create React App](https://github.com/facebook/create-react-app)
+* [React Bootstrap](https://react-bootstrap.github.io/)
+* [React Datepicker](https://reactdatepicker.com/)
+* [rrule.js](https://github.com/jakubroztocil/rrule)
+* [Moment.js](https://momentjs.com/)
+* [Recharts](http://recharts.org/)
 
 ### Planned future development
 
-*Implement Redux
-*User authentication with database functionality
-*Credit card/loan payoff calculator
+* Implement Redux
+* User authentication with database functionality
+* Credit card/loan payoff calculator
