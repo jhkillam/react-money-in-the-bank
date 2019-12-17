@@ -280,6 +280,7 @@ class Forecast extends React.Component {
           bordered
           hover
           variant="dark"
+          size="sm"
         >
           <thead>
             <tr>
@@ -328,6 +329,7 @@ class Forecast extends React.Component {
                   index={index}
                   variant="info"
                   onClick={() => this.markAsPaid(index)}
+                  size="sm"
                 >
                   Paid
                 </Button>

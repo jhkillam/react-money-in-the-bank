@@ -24,7 +24,11 @@ const EditModal = (props) => {
 
   return (
     <>
-      <Button variant="info" onClick={handleShow}>
+      <Button 
+        variant="info"
+        onClick={handleShow}
+        size="sm"
+      >
         Edit
       </Button>
 
@@ -115,9 +119,11 @@ const EditModal = (props) => {
               />
             </Form.Group>
             <Button 
-            type="submit" 
-            variant="info" 
-            onClick={handleSaveChanges}>
+              type="submit" 
+              variant="info" 
+              onClick={handleSaveChanges}
+              block
+            >
               Save Changes
             </Button>
           </Form>
