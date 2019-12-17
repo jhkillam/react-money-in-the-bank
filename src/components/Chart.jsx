@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 
 const moment = require('moment')
@@ -27,38 +27,64 @@ class Chart extends React.Component {
   }
   getForecast() {
     let forecast = JSON.parse(localStorage.getItem('forecastList')) || []
+    // console.log('forecast on chart load', forecast)
     let localBalance = JSON.parse(localStorage.getItem('balance')) || 0
-    console.log(localBalance)
     chartBalance = parseFloat(localBalance)
     data = []
     forecast.map((forecastItem) => {
-      // console.log(forecastItem)
       this.checkForTransactionType(forecastItem)
       chartBalance = (chartBalance + formattedTransactionAmount)
       data.push({
         date: moment(forecastItem.dueDate).utc().format('MM/DD/YYYY'),
-        balance: ( chartBalance - formattedTransactionAmount)
+        Balance: parseFloat((chartBalance).toFixed(2)),
+        Name: forecastItem.name
       })
     })
   }
+  gradientOffset() {
+    const dataMax = Math.max(...data.map((i) => i.Balance))
+    const dataMin = Math.min(...data.map((i) => i.Balance))
+    if (dataMax <= 0){
+      return 0
+    }
+    else if (dataMin >= 0){
+      return 1
+    }
+    else{
+      return dataMax / (dataMax - dataMin);
+    }
+  }
   render() {
-    console.log(data)
     this.getForecast()
     return (
-      <AreaChart
-        width={2000}
-        height={400}
-        data={data}
-        margin={{
-          top: 10, right: 30, left: 0, bottom: 0,
-        }}
+      <div className="container">
+        <ResponsiveContainer
+        aspect="1.5"
+        width="95%"
       >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip />
-        <Area type="monotone" dataKey="balance" stroke="#8884d8" fill="#8884d8" />
-      </AreaChart>
+          <AreaChart
+            data={data}
+            margin={{
+              top: 10, right: 30, left: 0, bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis />
+            <Tooltip 
+              payload={data}
+            />
+            <defs>
+              <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
+                <stop offset={this.gradientOffset()} stopColor="#17A2B8" stopOpacity={1}/>
+                <stop offset={this.gradientOffset()} stopColor="#f24236" stopOpacity={1}/>
+              </linearGradient>
+            </defs>
+            <Area type="monotone" dataKey="Balance" stroke="#000" fill="url(#splitColor)" />
+            <Area type="monotone" dataKey="Name" stroke="#000" fill="#000" opacity="0" />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
     );
   }
 }

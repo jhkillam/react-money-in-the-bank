@@ -135,6 +135,9 @@ class Transaction extends React.Component {
   render() {
     return (
       <div>
+        <div className="container">
+          <p>Input transactions here to see how they affect your forecast on the other tabs.</p>
+        </div>
         <NewTransactionForm
           handleChange={this.handleChange}
           newTransaction={this.state.newTransaction}
