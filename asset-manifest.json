@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/react-money-in-the-bank/static/css/main.022f6e7c.chunk.css",
+    "main.js": "/react-money-in-the-bank/static/js/main.edbea4dd.chunk.js",
+    "main.js.map": "/react-money-in-the-bank/static/js/main.edbea4dd.chunk.js.map",
+    "runtime-main.js": "/react-money-in-the-bank/static/js/runtime-main.9fe7c2fd.js",
+    "runtime-main.js.map": "/react-money-in-the-bank/static/js/runtime-main.9fe7c2fd.js.map",
+    "static/css/2.23be29d4.chunk.css": "/react-money-in-the-bank/static/css/2.23be29d4.chunk.css",
+    "static/js/2.76412daf.chunk.js": "/react-money-in-the-bank/static/js/2.76412daf.chunk.js",
+    "static/js/2.76412daf.chunk.js.map": "/react-money-in-the-bank/static/js/2.76412daf.chunk.js.map",
+    "index.html": "/react-money-in-the-bank/index.html",
+    "precache-manifest.5c728acc129cafdc0294cf37193b315f.js": "/react-money-in-the-bank/precache-manifest.5c728acc129cafdc0294cf37193b315f.js",
+    "service-worker.js": "/react-money-in-the-bank/service-worker.js",
+    "static/css/2.23be29d4.chunk.css.map": "/react-money-in-the-bank/static/css/2.23be29d4.chunk.css.map",
+    "static/css/main.022f6e7c.chunk.css.map": "/react-money-in-the-bank/static/css/main.022f6e7c.chunk.css.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9fe7c2fd.js",
+    "static/css/2.23be29d4.chunk.css",
+    "static/js/2.76412daf.chunk.js",
+    "static/css/main.022f6e7c.chunk.css",
+    "static/js/main.edbea4dd.chunk.js"
+  ]
+}
