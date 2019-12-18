@@ -20,3 +20,7 @@ My objective with this project is to create an application to track monthly inco
 * Implement Redux
 * User authentication with database functionality
 * Credit card/loan payoff calculator
+
+### License
+
+[MIT License](LICENSE.md)
