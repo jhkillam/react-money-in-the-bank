@@ -6,6 +6,8 @@ This repo contains my Phase 3 project for [DigitalCrafts](https://www.digitalcra
 
 My objective with this project is to create an application to track monthly income and expenses, and display a forecast of your bank balance over time. 
 
+A live demo is available at (https://jhkillam.github.io/react-money-in-the-bank/).
+
 ## Libraries Used
 
 * [Create React App](https://github.com/facebook/create-react-app)
