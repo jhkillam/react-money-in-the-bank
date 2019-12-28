@@ -2,10 +2,14 @@ import React from 'react'
 
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
+// import SplitButton from 'react-bootstrap/SplitButton'
+import Dropdown from 'react-bootstrap/Dropdown'
 
 import NewTransactionForm from './NewTransactionForm'
 import EditModal from './EditModal'
 import ErrorBoundary from './ErrorBoundary'
+
+import deleteIcon from '../img/Delete-Task_30px.png'
 
 const moment = require('moment')
 const uuid = require('uuid/v1')
@@ -148,7 +152,7 @@ class Transaction extends React.Component {
         />
         <div className="container">
           <Table 
-            responsive
+            // responsive
             style={{
               marginLeft: "auto",
               marginRight: "auto"
@@ -163,10 +167,10 @@ class Transaction extends React.Component {
               <tr>
                 <th>Name</th>
                 <th>Amount</th>
-                <th>Frequency</th>
-                <th>Due Date</th>
-                <th>End Date</th>
-                <th>Type</th>
+                {/* <th>Frequency</th> */}
+                <th>Date</th>
+                {/* <th>End Date</th> */}
+                {/* <th>Type</th> */}
                 <th>Actions</th>
               </tr>
             </thead>
@@ -174,39 +178,64 @@ class Transaction extends React.Component {
               {this.state.transactionList.map((transaction, index) => (
               <tr key={index}>
                 <td>{transaction.name}</td>
-                <td>{transaction.amount}</td>
-                <td>{transaction.frequency}</td>
-                <td>{moment(transaction.dueDate).utc().format('MM/DD/YYYY')}</td>
+                {/* <td>{transaction.amount}</td> */}
+                {(() => {
+                  if (transaction.type === "Expense") {
+                    return (
+                    <td style={{color: "red"}}>-{transaction.amount}</td>
+                    )
+                  } else {
+                    return (
+                      <td>{transaction.amount}</td>
+                    )
+                  }
+                })()}
+                {/* <td>{transaction.frequency}</td> */}
+                <td>{moment(transaction.dueDate).utc().format('MM/DD/YYYY')}<br/>
                 {(() => {
                   if (transaction.endDate === ""){
                     return (
-                      <td>None</td>
+                      <span>No end date</span>
                       )} else {
                       return (
-                        <td>{moment(transaction.endDate).utc().format('MM/DD/YYYY')}</td>
+                        <span>{moment(transaction.endDate).utc().format('MM/DD/YYYY')}</span>
                       )
                     }
                 })()}
-                <td>{transaction.type}</td>
+                </td>
+                {/* <td>{transaction.type}</td> */}
                 <td>
-                  <ErrorBoundary>
-                    <EditModal
-                      index={index}
-                      handleEditModalShow={() => this.setEditingTransaction(this.state.transactionList[index])}
-                      transactionDetails={this.state.editedTransaction}
-                      handleEditChange={this.handleEditChange}
-                      handleStartDateEditChange={this.handleStartDateEditChange}
-                      handleEndDateEditChange={this.handleEndDateEditChange}
-                      handleEditSubmit={this.handleEditSubmit}
-                    />
-                  </ErrorBoundary>
-                  <Button 
-                    variant="danger"
-                    onClick={() => this.removeTransaction(index)}
-                    size="sm"
-                  >
-                    X
-                  </Button>
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      size="sm"
+                      variant="info"
+                    >
+                      <Dropdown.Menu>
+                        <Dropdown.Item>
+                          <ErrorBoundary>
+                            <EditModal
+                              index={index}
+                              handleEditModalShow={() => this.setEditingTransaction(this.state.transactionList[index])}
+                              transactionDetails={this.state.editedTransaction}
+                              handleEditChange={this.handleEditChange}
+                              handleStartDateEditChange={this.handleStartDateEditChange}
+                              handleEndDateEditChange={this.handleEndDateEditChange}
+                              handleEditSubmit={this.handleEditSubmit}
+                            />
+                          </ErrorBoundary>
+                        </Dropdown.Item>
+                        <Dropdown.Item>
+                          <Button 
+                            variant="danger"
+                            onClick={() => this.removeTransaction(index)}
+                            size="sm"
+                          >
+                            <img src={deleteIcon}></img>
+                          </Button>
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown.Toggle>
+                  </Dropdown>
                 </td>
               </tr>
               ))}
