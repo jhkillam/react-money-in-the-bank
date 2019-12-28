@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/react-money-in-the-bank/precache-manifest.5c728acc129cafdc0294cf37193b315f.js"
+  "/react-money-in-the-bank/precache-manifest.0dfc57b5ce4f66ec84c2d997f2e14f1f.js"
 );
 
 self.addEventListener('message', (event) => {
