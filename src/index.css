@@ -46,3 +46,25 @@ table {
 td .btn {
   margin: 0 5px
 }
+td {
+  vertical-align: middle !important
+}
+.dropdown-menu {
+  min-width: 53px
+}
+.dropdown-menu.show button {
+  margin: 0px 0px 2px 0px
+}
+.dropdown-item {
+  display: flex;
+  width: 45px;
+	padding: .25rem;
+	clear: both;
+	font-weight: 400;
+	color: #212529;
+	text-align: inherit;
+	white-space: nowrap;
+	background-color: transparent;
+  border: 0;
+  flex-wrap: wrap;
+}

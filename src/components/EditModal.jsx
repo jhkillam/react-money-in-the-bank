@@ -5,6 +5,9 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
+
+import editIcon from '../img/Edit-Task_30px.png'
+
 // import { parseISO } from 'date-fns'
 
 const moment = require('moment')
@@ -29,7 +32,7 @@ const EditModal = (props) => {
         onClick={handleShow}
         size="sm"
       >
-        Edit
+        <img src={editIcon}></img>
       </Button>
 
       <Modal show={show} onHide={handleClose}>

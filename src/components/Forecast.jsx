@@ -291,7 +291,7 @@ class Forecast extends React.Component {
               {/* <th>End Date</th>
               <th>Type</th> */}
               <th>Balance</th>
-              <th>Actions</th>
+              {/* <th>Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -300,17 +300,6 @@ class Forecast extends React.Component {
               <td>{transaction.name}</td>
               <td>{this.checkForTransactionType(transaction).toFixed(2)}</td>
               <td>{moment(transaction.dueDate).utc().format('MM/DD/YYYY')}</td>
-              {/* {(() => {
-                if (transaction.endDate === ""){
-                  return (
-                    <td>None</td>
-                    )} else {
-                    return (
-                      <td>{moment(transaction.endDate).utc().format('MM/DD/YYYY')}</td>
-                    )
-                  }
-              })()}
-              <td>{transaction.type}</td> */}
               <td>
                 {(() => {
                   if (index === 0) {
@@ -324,7 +313,7 @@ class Forecast extends React.Component {
                   })()
                 }
               </td>
-              <td>
+              {/* <td>
                 <Button 
                   index={index}
                   variant="info"
@@ -333,7 +322,7 @@ class Forecast extends React.Component {
                 >
                   Paid
                 </Button>
-              </td>
+              </td> */}
             </tr>
           ))}
           </tbody>
