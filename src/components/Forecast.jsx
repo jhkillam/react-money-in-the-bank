@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Table from 'react-bootstrap/Table'
-import Button from 'react-bootstrap/Button'
+// import Button from 'react-bootstrap/Button'
 
 import { RRule } from 'rrule'
 import { cloneDeep } from 'lodash'
@@ -298,7 +298,19 @@ class Forecast extends React.Component {
             {this.state.transactionList.map((transaction, index) => (
             <tr key={index}>
               <td>{transaction.name}</td>
-              <td>{this.checkForTransactionType(transaction).toFixed(2)}</td>
+              <td>
+                {(() => {
+                  if (transaction.type === "Expense") {
+                    return (
+                      <span className="expense">{this.checkForTransactionType(transaction).toFixed(2)}</span>
+                    )
+                  } else {
+                    return (
+                      <span className="income">{this.checkForTransactionType(transaction).toFixed(2)}</span>
+                    )
+                  }
+                })()}
+              </td>
               <td>{moment(transaction.dueDate).utc().format('MM/DD/YYYY')}</td>
               <td>
                 {(() => {

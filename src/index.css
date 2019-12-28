@@ -50,21 +50,42 @@ td {
   vertical-align: middle !important
 }
 .dropdown-menu {
-  min-width: 53px
-}
-.dropdown-menu.show button {
-  margin: 0px 0px 2px 0px
+  min-width: 48px
 }
 .dropdown-item {
-  display: flex;
-  width: 45px;
-	padding: .25rem;
-	clear: both;
-	font-weight: 400;
-	color: #212529;
-	text-align: inherit;
-	white-space: nowrap;
-	background-color: transparent;
-  border: 0;
-  flex-wrap: wrap;
+  padding: 5px
+}
+.expense {
+  color: #dc3545;
+  font-weight: bold
+}
+.income {
+  color: #17a2b8;
+  font-weight: bold
+}
+@media (max-width: 600px) {
+  body {
+    font-size: .8rem;
+  }
+  .form-control {
+    font-size: .8rem
+  }
+  .btn {
+    font-size: .8rem
+  }
+  .react-datepicker-wrapper input {
+    font-size: .8rem
+  }
+}
+.delete-icon {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  padding: 5px;
+  border-radius: .2rem;
+}
+.edit-icon {
+  background-color: #138496;
+  border-color: #117a8b;
+  padding: 5px;
+  border-radius: .2rem;
 }

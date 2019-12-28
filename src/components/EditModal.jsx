@@ -27,13 +27,7 @@ const EditModal = (props) => {
 
   return (
     <>
-      <Button 
-        variant="info"
-        onClick={handleShow}
-        size="sm"
-      >
-        <img src={editIcon}></img>
-      </Button>
+      <img className="edit-icon" onClick={handleShow} alt="edit icon" src={editIcon}></img>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

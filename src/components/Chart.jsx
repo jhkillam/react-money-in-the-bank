@@ -1,16 +1,43 @@
 import React from 'react'
 
+import { RRule } from 'rrule'
+
+
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 
 const moment = require('moment')
+const uuid = require('uuid/v1')
 
 let data = []
 let formattedTransactionAmount = 0
 let chartBalance = 0
 
+let forecast = []
+let sortedForecast = JSON.parse(localStorage.getItem('forecastList')) || []
+let forecastTransactionStartDate
+let forecastTransactionEndDate
+const forecastLimit = {
+  endDate: new Date(),
+  limit: 2
+}
+const defaultForecastStartDate = new Date()
+const defaultForecastEndDate = new Date(forecastLimit.endDate.setFullYear(forecastLimit.endDate.getFullYear() + forecastLimit.limit))
+
 class Chart extends React.Component {
+  constructor(props) {
+    let localTransactionList = JSON.parse(localStorage.getItem('transactionList'))
+    let localBalance = JSON.parse(localStorage.getItem('balance')) || 0
+    let localPaidItems = JSON.parse(localStorage.getItem('paidItemsList')) || []
+    super(props)
+    this.state = {
+      transactionList: localTransactionList, 
+      balance: localBalance,
+      paidItemsList: localPaidItems,
+      forecastList: sortedForecast
+    }
+  }
   // static jsfiddleUrl = 'https://jsfiddle.net/alidingling/Lrffmzfc/';
   checkForTransactionType(transaction) {
     if (transaction.type === 'Expense') {
@@ -24,6 +51,142 @@ class Chart extends React.Component {
         parseFloat(formattedTransactionAmount)
       )
     }
+  }
+  calculateForecast() {
+    forecast = []
+    this.state.transactionList.forEach((transaction) => {
+      // these if-else statements check if there is an invalid start or end date
+      // TODO: IMPLEMENT FORM VALIDATION
+      if (transaction.endDate === "") {
+        forecastTransactionEndDate = defaultForecastEndDate
+      } else (
+        forecastTransactionEndDate = new Date(transaction.endDate)
+      )
+      if (transaction.dueDate === "") {
+        forecastTransactionStartDate = defaultForecastStartDate
+      } else {
+        forecastTransactionStartDate = new Date(transaction.dueDate)
+      }
+      // END OF DATE VALIDATION
+      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      
+      if (transaction.frequency === 'Monthly') {
+        const monthlyRule = new RRule({
+          freq: RRule.MONTHLY,
+          dtstart: forecastTransactionStartDate,
+          interval: 1,
+          until: forecastTransactionEndDate
+        })
+        let recurringDatesArray = monthlyRule.all()
+        let i = 0
+        for (i = 0; i < recurringDatesArray.length; i++) {
+          forecast.push(
+            {
+              name: transaction.name,
+              amount: parseFloat(transaction.amount),
+              dueDate: recurringDatesArray[i],
+              endDate: transaction.endDate,
+              frequency: transaction.frequency,
+              isPaid: false,
+              type: transaction.type,
+              transactionId: transaction.transactionId,
+              forecastId: uuid()
+            }
+          )
+        }
+      } else if (transaction.frequency === 'Bi-weekly') {
+          const biWeeklyRule = new RRule({
+            freq: RRule.WEEKLY,
+            dtstart: forecastTransactionStartDate,
+            interval: 2,
+            until: forecastTransactionEndDate
+          })
+          let recurringDatesArray = biWeeklyRule.all()
+          let i = 0
+          for (i = 0; i < recurringDatesArray.length; i++) {
+            forecast.push(
+              {
+                name: transaction.name,
+                amount: parseFloat(transaction.amount),
+                dueDate: recurringDatesArray[i],
+                endDate: transaction.endDate,
+                frequency: transaction.frequency,
+                isPaid: false,
+                type: transaction.type,
+                transactionId: transaction.transactionId,
+                forecastId: uuid()
+              }
+            )
+          }
+        } else if (transaction.frequency === 'Weekly') {
+            const weeklyRule = new RRule({
+              freq: RRule.WEEKLY,
+              dtstart: forecastTransactionStartDate,
+              interval: 1,
+              until: forecastTransactionEndDate
+            })
+            let recurringDatesArray = weeklyRule.all()
+            let i = 0
+            for (i = 0; i < recurringDatesArray.length; i++) {
+              forecast.push(
+                {
+                  name: transaction.name,
+                  amount: parseFloat(transaction.amount),
+                  dueDate: recurringDatesArray[i],
+                  endDate: transaction.endDate,
+                  frequency: transaction.frequency,
+                  isPaid: false,
+                  type: transaction.type,
+                  transactionId: transaction.transactionId,
+                  forecastId: uuid()
+                }
+              )
+            }
+        } else if (transaction.frequency === 'Daily') {
+            const dailyRule = new RRule({
+              freq: RRule.DAILY,
+              dtstart: forecastTransactionStartDate,
+              interval: 1,
+              until: forecastTransactionEndDate
+            })
+            let recurringDatesArray = dailyRule.all()
+            let i = 0
+            for (i = 0; i < recurringDatesArray.length; i++) {
+              forecast.push(
+                {
+                  name: transaction.name,
+                  amount: parseFloat(transaction.amount),
+                  dueDate: recurringDatesArray[i],
+                  endDate: transaction.endDate,
+                  frequency: transaction.frequency,
+                  isPaid: false,
+                  type: transaction.type,
+                  transactionId: transaction.transactionId,
+                  forecastId: uuid()
+                }
+              )
+            }
+        } else if (transaction.frequency === 'Once') {
+          forecast.push(
+            {
+              name: transaction.name,
+              amount: parseFloat(transaction.amount),
+              dueDate: forecastTransactionStartDate,
+              endDate: transaction.endDate,
+              frequency: transaction.frequency,
+              isPaid: false,
+              type: transaction.type,
+              transactionId: transaction.transactionId,
+              forecastId: uuid()
+            }
+          )
+        }
+    })
+    sortedForecast = forecast.sort((a, b) => a.dueDate - b.dueDate)
+    localStorage.setItem('forecastList', JSON.stringify(sortedForecast))
+    this.setState({
+      transactionList: sortedForecast
+    })
   }
   getForecast() {
     let forecast = JSON.parse(localStorage.getItem('forecastList')) || []
@@ -54,6 +217,25 @@ class Chart extends React.Component {
       return dataMax / (dataMax - dataMin);
     }
   }
+  componentDidMount() {
+    if (this.state.transactionList) {
+      if (this.state.transactionList.length === 0) {
+        // console.log('setting trlist and forecastlist to null')
+        this.setState({
+          transactionList: null,
+          forecastList: null
+        })
+      } else {
+        this.calculateForecast()
+      }
+    } else {
+      // console.log('setting trlist and forecastlist to null')
+      this.setState({
+        transactionList: null, 
+        forecastList: null
+      })
+    }
+  }
   render() {
     this.getForecast()
     return (
@@ -77,7 +259,7 @@ class Chart extends React.Component {
             <defs>
               <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
                 <stop offset={this.gradientOffset()} stopColor="#17A2B8" stopOpacity={1}/>
-                <stop offset={this.gradientOffset()} stopColor="#f24236" stopOpacity={1}/>
+                <stop offset={this.gradientOffset()} stopColor="#dc3545" stopOpacity={1}/>
               </linearGradient>
             </defs>
             <Area type="monotone" dataKey="Balance" stroke="#000" fill="url(#splitColor)" />

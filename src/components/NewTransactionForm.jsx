@@ -74,7 +74,7 @@ const NewTransactionForm = ({
             <DatePicker
               selected={newTransaction.endDate}
               onChange={handleEndDateChange}
-              placeholderText="Enter end date"
+              placeholderText="Enter end date (optional)"
               // isClearable
             />
           </Form.Group>

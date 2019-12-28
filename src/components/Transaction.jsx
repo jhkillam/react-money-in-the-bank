@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Table from 'react-bootstrap/Table'
-import Button from 'react-bootstrap/Button'
+// import Button from 'react-bootstrap/Button'
 // import SplitButton from 'react-bootstrap/SplitButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 
@@ -38,7 +38,7 @@ class Transaction extends React.Component {
         type: "Expense",
         transactionId: uuid()
       },
-      transactionList: []
+      transactionList: [],
     }
   }
   handleChange = e => {
@@ -182,11 +182,15 @@ class Transaction extends React.Component {
                 {(() => {
                   if (transaction.type === "Expense") {
                     return (
-                    <td style={{color: "red"}}>-{transaction.amount}</td>
+                    <td><span className="expense">-{transaction.amount}</span><br/>
+                    {transaction.type}
+                    </td>
                     )
                   } else {
                     return (
-                      <td>{transaction.amount}</td>
+                      <td><span className="income">{transaction.amount}</span><br/>
+                      {transaction.type}
+                      </td>
                     )
                   }
                 })()}
@@ -225,13 +229,7 @@ class Transaction extends React.Component {
                           </ErrorBoundary>
                         </Dropdown.Item>
                         <Dropdown.Item>
-                          <Button 
-                            variant="danger"
-                            onClick={() => this.removeTransaction(index)}
-                            size="sm"
-                          >
-                            <img src={deleteIcon}></img>
-                          </Button>
+                          <img className="delete-icon" onClick={() => this.removeTransaction(index)} alt="delete icon" src={deleteIcon}></img>
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown.Toggle>
